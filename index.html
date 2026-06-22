@@ -200,7 +200,7 @@
                 <span class="author-block">
                   <a href="https://blue-531.github.io" target="_blank">Hyun-Kurl Jang</a>,</span>
                 <span class="author-block">
-                  <a href="https://github.com/yh-yoon" target="_blank">Youngho Yoon</a>,</span>
+                  <a href="https://yh-yoon.github.io" target="_blank">Youngho Yoon</a>,</span>
                 <span class="author-block">
                   <a href="https://vi.kaist.ac.kr/pages/faculty" target="_blank">Kuk-Jin Yoon</a></span>
               </div>
@@ -365,11 +365,42 @@
           <button class="rc-arrow rc-prev" type="button" aria-label="Previous result">&#8249;</button>
           <div class="rc-track">
 
-            <!-- Result 1: Qualitative comparison -->
+
+            <!-- Result 2: Generation from diverse text prompts -->
             <div class="rc-slide">
               <figure class="rc-card">
-                <img src="static/images/qual.png"
-                  alt="Zero-shot generation under normal, rainy, night, and snowy conditions" loading="lazy">
+                <img src="static/images/qual_various_prompt.png"
+                  alt="Scenes generated from text prompts: desert, late autumn, and spring cherry blossoms"
+                  loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Generation from diverse text prompts.</strong> FrozenDrive synthesizes unseen scene
+                    types &mdash; desert, late autumn, and spring cherry blossoms &mdash; directly from free-form
+                    text while keeping all camera views consistent.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <!-- Result 2: Weather-augmented samples -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/Frozendrive_weather.png" loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Examples of text-driven weather-augmented samples.</strong> Given text prompts specifying
+                    the target weather, conditioned on (a) normal scenes, FrozenDrive generates (b) synthetic rain, (c)
+                    synthetic night, and (d) synthetic snowy scenes. In the fifth view, raindrops on the car hood (rain)
+                    and strong light sources with their reflections on the road (night) are clearly generated.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <!-- Result 3: Qualitative comparison -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/qual.png" loading="lazy">
                 <figcaption class="content figure-caption">
                   <p>
                     <strong>Qualitative comparison of generated samples</strong> under nuScenes validation conditions.
@@ -382,7 +413,7 @@
               </figure>
             </div>
 
-            <!-- Result 2: Sequential generation -->
+            <!-- Result 4: Sequential generation -->
             <div class="rc-slide">
               <figure class="rc-card">
                 <img src="static/images/Frozendrive_sequence.png"
@@ -398,42 +429,23 @@
               </figure>
             </div>
 
-            <!-- Result 3: Zero-shot text-guided generation -->
-            <div class="rc-slide">
-              <figure class="rc-card">
-                <img src="static/images/knowledge_preserving.png"
-                  alt="Zero-shot text-guided generation under a snowy-weather prompt" loading="lazy">
-                <figcaption class="content figure-caption">
-                  <p>
-                    <strong>Zero-shot text-guided generation results.</strong>
-                    Examples from a model with (a) learnable multi-view/temporal cross-attention and (b) our
-                    parameter-free knowledge-preserving spatio-temporal attentions with a &lsquo;Snowy weather&rsquo;
-                    prompt.
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-
-            <!-- Result 4: Weather-augmented samples -->
-            <div class="rc-slide">
-              <figure class="rc-card">
-                <img src="static/images/Frozendrive_weather.png"
-                  alt="Text-driven weather-augmented samples: rain, night, and snow" loading="lazy">
-                <figcaption class="content figure-caption">
-                  <p>
-                    <strong>Examples of text-driven weather-augmented samples.</strong> Given text prompts specifying
-                    the target weather, conditioned on (a) normal scenes, FrozenDrive generates (b) synthetic rain, (c)
-                    synthetic night, and (d) synthetic snowy scenes. In the fifth view, raindrops on the car hood (rain)
-                    and strong light sources with their reflections on the road (night) are clearly generated.
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-
           </div>
           <button class="rc-arrow rc-next" type="button" aria-label="Next result">&#8250;</button>
           <div class="rc-dots" aria-hidden="true"></div>
         </div>
+      </div>
+      <div class="method-subsection">
+        <h3 class="title is-4 has-text-centered"> Ablation Study: Knowledge Preservation </h3>
+        <figure class="method-figure">
+          <div class="image"> <!-- Replace this path with your object-weighting figure --> <img
+              src="static/images/knowledge_preserving.png" style="width: 100%; height: auto;" loading="lazy"> </div>
+          <figcaption class="content figure-caption">
+            <p> <strong>Zero-shot text-guided generation results.</strong>
+              Examples from a model with (a) learnable multi-view/temporal cross-attention and (b) our
+              parameter-free knowledge-preserving spatio-temporal attentions with a &lsquo;Snowy weather&rsquo;
+              prompt. </p>
+          </figcaption>
+        </figure>
       </div>
     </section>
     <!-- End Key Results -->
