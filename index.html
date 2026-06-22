@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <!-- TODO: Replace with your paper title and author names -->
+  <meta name="title" content="FrozenDrive: Zero-Shot Text-Guided Driving Scene Generation">
+  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <meta name="description"
+    content="FrozenDrive preserves a frozen diffusion model to generate coherent multi-view driving scenes and improve autonomous-driving robustness under adverse weather.">
+  <!-- TODO: Add 5-10 relevant keywords for your research area -->
+  <meta name="keywords"
+    content="autonomous driving, multi-view generation, text-guided diffusion, zero-shot generation, synthetic data, data augmentation, adverse weather, temporal consistency">
+  <!-- TODO: List all authors -->
+  <meta name="author"
+    content="Yuhwan Jeong, Hyeonseong Kim, Daehyun We, Seonkyu Song, Jinnyeong Yang, Hyun-Kurl Jang, Youngho Yoon, Kuk-Jin Yoon">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <!-- TODO: Replace with your institution or lab name -->
+  <meta property="og:site_name" content="Visual Intelligence Lab, KAIST">
+  <!-- TODO: Same as paper title above -->
+  <meta property="og:title"
+    content="FrozenDrive: Zero-Shot Text-Guided Driving Scene Generation and Data Augmentation with Parameter-Free Frozen Diffusion Model">
+  <!-- TODO: Same as description above -->
+  <meta property="og:description"
+    content="FrozenDrive preserves a frozen diffusion model to generate coherent multi-view driving scenes and improve autonomous-driving robustness under adverse weather.">
+  <!-- TODO: Replace with your actual website URL -->
+  <meta property="og:url" content="https://frozendriveeccv.github.io/">
+  <!-- TODO: Create a 1200x630px preview image and update path -->
+  <meta property="og:image" content="https://frozendriveeccv.github.io/static/images/Frozendrive_framework_v6.png">
+  <meta property="og:image:width" content="1859">
+  <meta property="og:image:height" content="769">
+  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
+  <!-- <meta property="article:published_time" content="2026-06-01T00:00:00.000Z"> -->
+  <meta property="article:author" content="Yuhwan Jeong">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="AUTONOMOUS DRIVING">
+  <meta property="article:tag" content="MULTI-VIEW GENERATION">
+
+  <!-- Twitter -->
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- TODO: Replace with your lab/institution Twitter handle -->
+  <!-- <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE"> -->
+  <!-- TODO: Replace with first author's Twitter handle -->
+  <!-- <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE"> -->
+  <!-- TODO: Same as paper title above -->
+  <!-- <meta name="twitter:title" content="PAPER_TITLE"> -->
+  <!-- TODO: Same as description above -->
+  <!-- <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS"> -->
+  <!-- TODO: Same as social preview image above -->
+  <!-- <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png"> -->
+  <!-- <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview"> -->
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title"
+    content="FrozenDrive: Zero-Shot Text-Guided Driving Scene Generation and Data Augmentation with Parameter-Free Frozen Diffusion Model">
+  <meta name="citation_author" content="Yuhwan Jeong">
+  <meta name="citation_author" content="Hyeonseong Kim">
+  <meta name="citation_author" content="Daehyun We">
+  <meta name="citation_author" content="Seonkyu Song">
+  <meta name="citation_author" content="Jinnyeong Yang">
+  <meta name="citation_author" content="Hyun-Kurl Jang">
+  <meta name="citation_author" content="Youngho Yoon">
+  <meta name="citation_author" content="Kuk-Jin Yoon">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="European Conference on Computer Vision">
+  <!-- <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf"> -->
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <!-- TODO: Replace with your paper title and authors -->
+  <title>ECCV 2026 FrozenDrive</title>
+  <link rel="canonical" href="https://frozendriveeccv.github.io/">
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <!-- Carousel/slider CSS must be applied BEFORE their JS initializes (bulma-carousel
+       measures the layout once at init), so load these synchronously. -->
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style"
+    onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+</head>
+
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <!-- <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://arxiv.org/abs/PAPER_ID_1" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 1</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2024</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/PAPER_ID_2" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 2</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/PAPER_ID_3" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Paper Title 3</h5>
+            <p>Brief description of the work and its main contribution.</p>
+            <span class="work-venue">Conference/Journal 2023</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div> -->
+
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <!-- TODO: Replace with your paper title -->
+              <h1 class="title is-1 publication-title">FrozenDrive: Zero-Shot Text-Guided Driving Scene Generation and
+                Data Augmentation with Parameter-Free Frozen Diffusion Model</h1>
+              <div class="is-size-5 publication-authors">
+                <!-- TODO: Replace with your paper authors and their personal links -->
+                <span class="author-block">
+                  <a href="https://jeongyh98.github.io" target="_blank">Yuhwan Jeong</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://github.com/hskim617" target="_blank">Hyeonseong Kim</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://github.com/daehyunwe" target="_blank">Daehyun We</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://github.com/ssunkyu" target="_blank">Seonkyu Song</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://github.com/taekbaeajossi" target="_blank">Jinnyeong Yang</a><sup>*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://blue-531.github.io" target="_blank">Hyun-Kurl Jang</a>,</span>
+                <span class="author-block">
+                  <a href="https://github.com/yh-yoon" target="_blank">Youngho Yoon</a>,</span>
+                <span class="author-block">
+                  <a href="https://vi.kaist.ac.kr/pages/faculty" target="_blank">Kuk-Jin Yoon</a></span>
+              </div>
+
+              <div class="is-size-5 publication-authors">
+                <!-- TODO: Replace with your institution and conference/journal info -->
+                <span class="author-block"> KAIST, <a href="https://vi.kaist.ac.kr/" target="_blank">Visual Intelligence
+                    Lab</a><br>ECCV 2026</span>
+                <!-- TODO: Remove this line if no equal contribution -->
+                <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+              </div>
+
+              <!-- <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <a href="https://arxiv.org/abs/2606.20110v1" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Paper</span>
+                    </a>
+                  </span> -->
+
+              <!-- <span class="link-block">
+                    <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="fas fa-file-pdf"></i>
+                      </span>
+                      <span>Supplementary</span>
+                    </a>
+                  </span> -->
+
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2606.20110v1" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+
+              <span class="link-block">
+                <a href="https://github.com/daehyunwe/FrozenDrive" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- Key Insight -->
+    <section class="section teaser" id="key-insight">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered"> Key Insight </h2>
+        <figure>
+          <div class="image"> <img src="static/images/Frozendrive_framework.png"
+              alt="Comparison between learnable adaptation and FrozenDrive's knowledge-preserving approach for zero-shot text-guided driving scene generation"
+              style="width: 100%; height: auto;"> </div>
+          <figcaption class="content teaser-caption">
+            <p> <strong>(a)</strong> Fine-tuning or adding learnable layers to a pretrained diffusion backbone can
+              weaken its generative priors and text alignment, limiting its ability to follow unseen text prompts.
+              <strong>(b)</strong> FrozenDrive keeps the pretrained diffusion backbone fully frozen and enforces
+              multi-view and temporal consistency without adding trainable parameters to the backbone, thereby
+              preserving zero-shot text-guided generation.
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+    </section> <!-- End Key Insight -->
+
+    <!-- Paper abstract -->
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <!-- TODO: Replace with your paper abstract -->
+              <p>
+                Synthetic data for autonomous driving is surging, powered by diffusion models that promise scalable
+                scene generation. Yet key obstacles remain, since multi-view and temporal consistency often requires
+                backbone fine-tuning or added layers, which can erode pretrained knowledge and weaken text alignment.
+                Models also stay close to the training distribution, struggling under adverse weather and unseen
+                configurations, while fidelity favors frequent over rare classes. We address these gaps with
+                FrozenDrive, a controllable generative framework that preserves pretrained diffusion knowledge while
+                achieving strong consistency. FrozenDrive conditions on driving-stack signals and text prompts, and
+                expands the context of frozen self-attention across views and frames to promote cross-view alignment and
+                temporal coherence in one pass, without trainable spatio-temporal modules in the diffusion backbone. An
+                object-focused constraint further improves fidelity for rare categories. Without weather- or
+                scene-specific fine-tuning, FrozenDrive synthesizes globally coherent multi-view driving scenes from
+                text and surpasses prior baselines under adverse and rare conditions. On nuScenes, FrozenDrive-augmented
+                data improves AD model performance, especially at night and in rain, demonstrating strong robustness
+                with scenario-targeted data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End paper abstract -->
+
+    <!-- Method Overview -->
+    <section class="section method-overview" id="method">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered"> Method Overview </h2> <!-- Overall Framework -->
+        <figure class="method-figure">
+          <div class="image"> <img src="static/images/arch.png"
+              alt="Overall architecture of FrozenDrive with structured driving conditions and knowledge-preserving spatio-temporal attention"
+              style="width: 100%; height: auto;" loading="lazy"> </div>
+          <figcaption class="content figure-caption">
+            <p> <strong>Overall framework.</strong> FrozenDrive conditions a frozen pretrained diffusion backbone on
+              structured driving signals and text. Its knowledge-preserving spatio-temporal attention jointly promotes
+              cross-view and temporal consistency without updating the pretrained attention projections. </p>
+          </figcaption>
+        </figure> <!-- Object-Focused Weighting -->
+        <div class="method-subsection">
+          <h3 class="title is-4 has-text-centered"> Object-Focused Weighting </h3>
+          <figure class="method-figure">
+            <div class="image"> <!-- Replace this path with your object-weighting figure --> <img
+                src="static/images/object_weighted_loss.png"
+                alt="Object-focused weighting for improving rare-object generation" style="width: 100%; height: auto;"
+                loading="lazy"> </div>
+            <figcaption class="content figure-caption">
+              <p> <strong>Object-presence ratio loss.</strong> FrozenDrive assigns larger diffusion-loss weights to
+                underrepresented object categories, improving generation fidelity for rare objects. </p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section> <!-- End Method Overview -->
+
+    <!-- Key Results -->
+    <section class="section hero is-light" id="results">
+      <div class="container is-max-desktop">
+
+        <h2 class="title is-3 has-text-centered">
+          Key Results
+        </h2>
+
+        <p class="content has-text-centered results-intro">
+          Keeping the diffusion backbone completely frozen, FrozenDrive synthesizes
+          multi-view driving scenes that stay consistent across cameras and over time.
+          Guided purely by text, it composes adverse and previously unseen
+          conditions &mdash; rain, night, and snow &mdash; while faithfully preserving
+          scene layout and the appearance of rare objects, surpassing prior generators.
+        </p>
+
+        <div class="rc" id="results-carousel">
+          <button class="rc-arrow rc-prev" type="button" aria-label="Previous result">&#8249;</button>
+          <div class="rc-track">
+
+            <!-- Result 1: Qualitative comparison -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/qual.png"
+                  alt="Zero-shot generation under normal, rainy, night, and snowy conditions" loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Qualitative comparison of generated samples</strong> under nuScenes validation conditions.
+                    Using the same nuScenes conditions, we generate multi-view images with each method to evaluate
+                    visual quality. Compared to the ground truth (top row), MagicDrive-V2 produces structural artifacts
+                    in road conditions (red boxes), and DriveArena exhibits view-inconsistent object shapes (blue
+                    boxes). Our method better preserves scene layout while maintaining superior multi-view consistency.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <!-- Result 2: Sequential generation -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/Frozendrive_sequence.png"
+                  alt="Multi-view and temporal consistency of FrozenDrive" loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Visualization of sequential generation.</strong> FrozenDrive produces high-fidelity,
+                    temporally coherent images across scenes. The rare construction vehicle (red boxes) is faithfully
+                    preserved in shape, color, and position across viewpoints and consecutive frames, demonstrating
+                    strong object-level consistency.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <!-- Result 3: Zero-shot text-guided generation -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/knowledge_preserving.png"
+                  alt="Zero-shot text-guided generation under a snowy-weather prompt" loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Zero-shot text-guided generation results.</strong>
+                    Examples from a model with (a) learnable multi-view/temporal cross-attention and (b) our
+                    parameter-free knowledge-preserving spatio-temporal attentions with a &lsquo;Snowy weather&rsquo;
+                    prompt.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+            <!-- Result 4: Weather-augmented samples -->
+            <div class="rc-slide">
+              <figure class="rc-card">
+                <img src="static/images/Frozendrive_weather.png"
+                  alt="Text-driven weather-augmented samples: rain, night, and snow" loading="lazy">
+                <figcaption class="content figure-caption">
+                  <p>
+                    <strong>Examples of text-driven weather-augmented samples.</strong> Given text prompts specifying
+                    the target weather, conditioned on (a) normal scenes, FrozenDrive generates (b) synthetic rain, (c)
+                    synthetic night, and (d) synthetic snowy scenes. In the fifth view, raindrops on the car hood (rain)
+                    and strong light sources with their reflections on the road (night) are clearly generated.
+                  </p>
+                </figcaption>
+              </figure>
+            </div>
+
+          </div>
+          <button class="rc-arrow rc-next" type="button" aria-label="Next result">&#8250;</button>
+          <div class="rc-dots" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+    <!-- End Key Results -->
+
+
+    <!-- Downstream Impact -->
+    <section class="section" id="downstream-impact">
+      <div class="container is-max-desktop">
+
+        <h2 class="title is-3 has-text-centered">
+          Downstream Impact
+        </h2>
+
+        <p class="content has-text-centered results-intro">
+          We train an autonomous-driving model (SparseDrive) on data augmented with
+          FrozenDrive's text-prompted night and rain scenes. The scenario-targeted data
+          sharply improves both perception and planning under adverse conditions &mdash;
+          outperforming the normal-weather-only baseline and every prior generator.
+        </p>
+
+        <!-- Headline improvements over the normal-only baseline -->
+        <!-- <div class="columns is-centered result-cards">
+
+          <div class="column">
+            <div class="result-card has-text-centered">
+              <p class="heading">Night &middot; 3D Detection</p>
+              <p class="stat-line"><span class="stat-from">6.62</span><span class="stat-arrow">&rarr;</span><span
+                  class="stat-to">18.15</span></p>
+              <p class="result-metric">mAP &uarr; <span class="stat-delta">2.7&times;</span></p>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="result-card has-text-centered">
+              <p class="heading">Night &middot; Online Mapping</p>
+              <p class="stat-line"><span class="stat-from">5.99</span><span class="stat-arrow">&rarr;</span><span
+                  class="stat-to">21.03</span></p>
+              <p class="result-metric">mAP &uarr; <span class="stat-delta">3.5&times;</span></p>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="result-card has-text-centered">
+              <p class="heading">Night &middot; Planning</p>
+              <p class="stat-line"><span class="stat-from">1.40</span><span class="stat-arrow">&rarr;</span><span
+                  class="stat-to">0.93</span></p>
+              <p class="result-metric">Avg L2 &darr; <span class="stat-delta">&minus;34%</span></p>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="result-card has-text-centered">
+              <p class="heading">Rain &middot; Planning</p>
+              <p class="stat-line"><span class="stat-from">0.75</span><span class="stat-arrow">&rarr;</span><span
+                  class="stat-to">0.58</span></p>
+              <p class="result-metric">Avg L2 &darr; <span class="stat-delta">&minus;23%</span></p>
+            </div>
+          </div>
+
+        </div> -->
+
+        <!-- Full comparison across augmentation strategies -->
+        <div class="impact-table-wrap">
+          <table class="impact-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="t-method">Augmentation strategy</th>
+                <th colspan="3" class="t-group t-night">Night</th>
+                <th colspan="3" class="t-group t-rain">Rain</th>
+              </tr>
+              <tr>
+                <th>Det. mAP &uarr;</th>
+                <th>Map mAP &uarr;</th>
+                <th>Plan L2 &darr;</th>
+                <th>Det. mAP &uarr;</th>
+                <th>Map mAP &uarr;</th>
+                <th>Plan L2 &darr;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="t-method">Baseline <span class="t-sub">(normal only)</span></td>
+                <td>6.62</td>
+                <td>5.99</td>
+                <td>1.40</td>
+                <td>31.60</td>
+                <td>24.75</td>
+                <td>0.75</td>
+              </tr>
+              <tr>
+                <td class="t-method">Rule-based</td>
+                <td>7.42</td>
+                <td>6.50</td>
+                <td>1.24</td>
+                <td>30.76</td>
+                <td>25.20</td>
+                <td>0.76</td>
+              </tr>
+              <tr>
+                <td class="t-method">DriveArena</td>
+                <td>8.89</td>
+                <td>7.00</td>
+                <td>1.09</td>
+                <td>33.46</td>
+                <td>29.06</td>
+                <td>0.71</td>
+              </tr>
+              <tr>
+                <td class="t-method">MagicDrive-V2</td>
+                <td>12.68</td>
+                <td>11.69</td>
+                <td>1.11</td>
+                <td>33.93</td>
+                <td>30.02</td>
+                <td>0.73</td>
+              </tr>
+              <tr class="t-ours">
+                <td class="t-method">FrozenDrive <span class="t-sub">(Ours)</span></td>
+                <td>18.15</td>
+                <td>21.03</td>
+                <td>0.93</td>
+                <td>35.15</td>
+                <td>31.39</td>
+                <td>0.58</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="content has-text-centered result-note">
+          Perception (3D detection &amp; online-mapping mAP) and planning (average L2) of
+          SparseDrive on the nuScenes night / rain splits, grouped by training-data
+          augmentation strategy. FrozenDrive (Ours) is best in every column. Adapted from
+          Table&nbsp;2 of the paper.
+        </p>
+
+      </div>
+    </section>
+    <!-- End Downstream Impact -->
+
+    <!-- Youtube video -->
+    <!-- <section class="hero is-small is-light">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title is-3">Video Presentation</h2>
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+
+              <div class="publication-video">
+                <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0"
+                  allow="autoplay; encrypted-media" allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- End youtube video -->
+
+
+
+    <!-- Video carousel -->
+    <!-- <section class="hero is-small">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title is-3">Another Carousel</h2>
+          <div id="results-carousel" class="carousel results-carousel">
+            <div class="item item-video1">
+              <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
+                <source src="static/videos/carousel1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="item item-video2">
+              <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
+                <source src="static/videos/carousel2.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="item item-video3">
+              <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
+                <source src="static/videos/carousel3.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+    <!-- End video carousel -->
+
+
+
+    <!-- Paper poster -->
+    <!-- <section class="hero is-small is-light">
+      <div class="hero-body">
+        <div class="container">
+          <h2 class="title">Poster</h2>
+
+          <iframe src="static/pdfs/sample.pdf" width="100%" height="550">
+          </iframe>
+
+        </div>
+      </div>
+    </section> -->
+    <!--End paper poster -->
+
+
+
+    <!--BibTex citation -->
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <div class="bibtex-header">
+          <h2 class="title">BibTeX</h2>
+          <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+            <i class="fas fa-copy"></i>
+            <span class="copy-text">Copy</span>
+          </button>
+        </div>
+        <pre id="bibtex-code"><code>@inproceedings{jeong2026frozendrive,
+  title     = {FrozenDrive: Zero-Shot Text-Guided Driving Scene Generation and Data Augmentation with Parameter-Free Frozen Diffusion Model},
+  author    = {Jeong, Yuhwan and Kim, Hyeonseong and We, Daehyun and Song, Seonkyu and Yang, Jinnyeong and Jang, Hyun-Kurl and Yoon, Youngho and Yoon, Kuk-Jin},
+  booktitle = {European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}
+          </code>
+        </pre>
+      </div>
+    </section>
+    <!--End BibTex citation -->
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template"
+                target="_blank">Academic Project Page Template</a> which was adopted from the <a
+                href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in
+              the footer. <br> This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Statcounter tracking code -->
+
+  <!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+  <!-- End of Statcounter Code -->
+
+</body>
+
+</html>
